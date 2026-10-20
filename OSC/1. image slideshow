@@ -1,0 +1,43 @@
+<!-- Index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slideshow</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <img src="./assets/img1.jpg" alt="Slideshow Image" id="slide_show" class="image" />
+  <script src="./app.js"></script>
+</body>
+</html>
+
+/* --- style.css --- */
+.image {
+  height: 500px;
+  width: 500px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* --- app.js --- */
+let images = [
+  "./assets/img1.jpg",
+  "./assets/img2.jpg",
+  "./assets/img3.jpg",
+  "./assets/img4.avif"
+];
+let index = 0;
+let slide = document.getElementById('slide_show');
+
+let changeimg = () => {
+  index++; // index = index + 1
+  if (index >= images.length) {
+    index = 0;
+  }
+  slide.src = images[index];
+};
+
+setInterval(changeimg, 2000);

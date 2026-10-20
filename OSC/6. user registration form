@@ -1,0 +1,441 @@
+/* ==========================================================================
+   File 1: views/login.html - Login View
+   ========================================================================== */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration - Login</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Student Registration System</h1>
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <p class="info">
+      Username: <b>admin</b><br />
+      Password: <b>1234</b>
+    </p>
+  </div>
+</body>
+</html>
+
+/* ==========================================================================
+   File 2: views/register.html - Student Registration Form
+   ========================================================================== */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Student Registration Form</h1>
+    <form action="/register" method="POST">
+      <label>Student Name</label>
+      <input type="text" name="name" required />
+
+      <label>Register Number</label>
+      <input type="text" name="regno" required />
+
+      <label>Email</label>
+      <input type="email" name="email" required />
+
+      <label>Mobile Number</label>
+      <input
+        type="text"
+        name="mobile"
+        pattern="[0-9]{10}"
+        maxlength="10"
+        placeholder="10-digit mobile number"
+        required
+      />
+
+      <label>Gender</label>
+      <div class="radio">
+        <label><input type="radio" name="gender" value="Male" required /> Male</label>
+        <label><input type="radio" name="gender" value="Female" /> Female</label>
+        <label><input type="radio" name="gender" value="Other" /> Other</label>
+      </div>
+
+      <label>Date of Birth</label>
+      <input type="date" name="dob" required />
+
+      <label>Department</label>
+      <select name="department" required>
+        <option value="">Select Department</option>
+        <option value="Computer Applications">Computer Applications</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Information Technology">Information Technology</option>
+        <option value="Electronics">Electronics</option>
+      </select>
+
+      <label>Course</label>
+      <select name="course" required>
+        <option value="">Select Course</option>
+        <option value="MCA">MCA</option>
+        <option value="M.Sc Computer Science">M.Sc Computer Science</option>
+        <option value="BCA">BCA</option>
+        <option value="B.Sc Computer Science">B.Sc Computer Science</option>
+      </select>
+
+      <label>Year</label>
+      <select name="year" required>
+        <option value="">Select Year</option>
+        <option value="1st Year">1st Year</option>
+        <option value="2nd Year">2nd Year</option>
+        <option value="3rd Year">3rd Year</option>
+      </select>
+
+      <label>Address</label>
+      <textarea name="address" rows="4" required></textarea>
+
+      <label>Skills</label>
+      <div class="skills">
+        <label><input type="checkbox" name="skills" value="Python" /> Python</label>
+        <label><input type="checkbox" name="skills" value="Java" /> Java</label>
+        <label><input type="checkbox" name="skills" value="JavaScript" /> JavaScript</label>
+        <label><input type="checkbox" name="skills" value="HTML/CSS" /> HTML/CSS</label>
+        <label><input type="checkbox" name="skills" value="Node.js" /> Node.js</label>
+      </div>
+
+      <button type="submit">Register Student</button>
+    </form>
+    <a class="logout" href="/logout">Logout</a>
+  </div>
+</body>
+</html>
+
+/* ==========================================================================
+   File 3: views/student.html - View Registered Student Details
+   ========================================================================== */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Details</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Student Registration Successful</h1>
+    <div id="studentDetails">Loading student details...</div>
+    <br />
+    <a class="button" href="/register">Register Another Student</a>
+    <a class="logout" href="/logout">Logout</a>
+  </div>
+
+  <script>
+    fetch("/student-data")
+      .then((response) => response.json())
+      .then((student) => {
+        const skillsDisplay = Array.isArray(student.skills) 
+          ? student.skills.join(", ") 
+          : (student.skills || "None");
+
+        document.getElementById("studentDetails").innerHTML = `
+          <table>
+            <tr><th>Student Name</th><td>${student.name}</td></tr>
+            <tr><th>Register Number</th><td>${student.regno}</td></tr>
+            <tr><th>Email</th><td>${student.email}</td></tr>
+            <tr><th>Mobile Number</th><td>${student.mobile}</td></tr>
+            <tr><th>Gender</th><td>${student.gender}</td></tr>
+            <tr><th>Date of Birth</th><td>${student.dob}</td></tr>
+            <tr><th>Department</th><td>${student.department}</td></tr>
+            <tr><th>Course</th><td>${student.course}</td></tr>
+            <tr><th>Year</th><td>${student.year}</td></tr>
+            <tr><th>Address</th><td>${student.address}</td></tr>
+            <tr><th>Skills</th><td>${skillsDisplay}</td></tr>
+          </table>
+        `;
+      })
+      .catch((err) => {
+        document.getElementById("studentDetails").innerHTML = `<p>Error loading student details.</p>`;
+      });
+  </script>
+</body>
+</html>
+
+/* ==========================================================================
+   File 4: public/style.css - Styling
+   ========================================================================== */
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 30px;
+}
+
+.container {
+  width: 650px;
+  max-width: 90%;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.radio {
+  margin-top: 8px;
+}
+
+.radio input {
+  width: auto;
+  margin-right: 5px;
+}
+
+.skills label {
+  font-weight: normal;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.skills input {
+  width: auto;
+}
+
+button,
+.button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover,
+.button:hover {
+  background: #555;
+}
+
+.logout {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: red;
+  text-decoration: none;
+}
+
+.logout:hover {
+  text-decoration: underline;
+}
+
+.info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #aaa;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  width: 35%;
+  background-color: #f7f7f7;
+}
+
+/* ==========================================================================
+   File 5: app.js - Express Server with Sessions
+   ========================================================================== */
+const express = require("express");
+const session = require("express-session");
+const path = require("path");
+
+const app = express();
+const PORT = 3000;
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "student-registration-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Login page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "login.html"));
+});
+
+// Login POST Handler
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  if (username === "admin" && password === "1234") {
+    req.session.loggedIn = true;
+    res.redirect("/register");
+  } else {
+    res.send(`
+      <h2>Invalid username or password</h2>
+      <a href="/">Back to Login</a>
+    `);
+  }
+});
+
+// Registration page
+app.get("/register", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
+// Handle registration
+app.post("/register", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  const {
+    name,
+    regno,
+    email,
+    mobile,
+    gender,
+    dob,
+    department,
+    course,
+    year,
+    address,
+    skills,
+  } = req.body;
+
+  // Validation
+  if (
+    !name ||
+    !regno ||
+    !email ||
+    !mobile ||
+    !gender ||
+    !dob ||
+    !department ||
+    !course ||
+    !year ||
+    !address
+  ) {
+    return res.send(`
+      <h2>All required fields must be filled.</h2>
+      <a href="/register">Go Back</a>
+    `);
+  }
+
+  // Email validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return res.send(`
+      <h2>Invalid email address.</h2>
+      <a href="/register">Go Back</a>
+    `);
+  }
+
+  // Mobile validation
+  const mobilePattern = /^[0-9]{10}$/;
+  if (!mobilePattern.test(mobile)) {
+    return res.send(`
+      <h2>Mobile number must contain exactly 10 digits.</h2>
+      <a href="/register">Go Back</a>
+    `);
+  }
+
+  // Store student details in session
+  req.session.student = {
+    name,
+    regno,
+    email,
+    mobile,
+    gender,
+    dob,
+    department,
+    course,
+    year,
+    address,
+    skills: skills || "None",
+  };
+  res.redirect("/student");
+});
+
+// Display student details
+app.get("/student", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  if (!req.session.student) {
+    return res.redirect("/register");
+  }
+  res.sendFile(path.join(__dirname, "views", "student.html"));
+});
+
+// Student data API used by student.html
+app.get("/student-data", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.status(401).json({
+      error: "Unauthorized",
+    });
+  }
+  res.json(req.session.student);
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

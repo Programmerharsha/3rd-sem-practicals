@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3rd Semester Practicals | AIML &amp; OSC</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>3rd Semester Practicals</h1>
+    <p>Select a subject below to view its practical programs with clean, formatted code</p>
+    
+    <!-- Section Switcher Options -->
+    <div class="options-bar">
+      <button id="btn-aiml" class="option-btn active" onclick="selectSection('aiml')">
+        AIML (10 Programs)
+      </button>
+      <button id="btn-osc" class="option-btn" onclick="selectSection('osc')">
+        OSC (7 Programs)
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- ================================================================= -->
+    <!-- SECTION 1: AIML (10 PRACTICALS)                                   -->
+    <!-- ================================================================= -->
+    <div id="aiml-section" class="section active">
+      
+      <div class="section-title">
+        <span>Artificial Intelligence &amp; Machine Learning (AIML)</span>
+        <span class="section-count">10 Programs</span>
+      </div>
+
+      <!-- Table of Contents -->
+      <div class="toc-box">
+        <h3>Program Index</h3>
+        <div class="toc-grid">
+          <a class="toc-link" href="#aiml-1">1. Breadth-First Search &amp; Depth-First Search</a>
+          <a class="toc-link" href="#aiml-2">2. 8-Puzzle Problem using State-Space</a>
+          <a class="toc-link" href="#aiml-3">3. A* Search Algorithm</a>
+          <a class="toc-link" href="#aiml-4">4. Hill Climbing Algorithm</a>
+          <a class="toc-link" href="#aiml-5">5. Linear Regression Model</a>
+          <a class="toc-link" href="#aiml-6">6. Logistic Regression Classifier</a>
+          <a class="toc-link" href="#aiml-7">7. Support Vector Machine (SVM)</a>
+          <a class="toc-link" href="#aiml-8">8. K-Nearest Neighbors (KNN)</a>
+          <a class="toc-link" href="#aiml-9">9. Feedforward Neural Network</a>
+          <a class="toc-link" href="#aiml-10">10. Convolutional Neural Network (CNN)</a>
+        </div>
+      </div>
+
+      <!-- AIML Program 1 -->
+      <div id="aiml-1" class="program-card">
+        <div class="program-header">
+          <h2>1. Breadth-First Search (BFS) and Depth-First Search (DFS)</h2>
+          <div class="program-meta">
+            <span class="badge">Python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['G'],
+    'F': [],
+    'G': []
+}
+
+def bfs(graph, start):
+    visited = []
+    queue = [start]
+    while queue:
+        node = queue.pop(0) 
+        if node not in visited:
+            visited.append(node)
+            queue.extend(graph[node])
+    return visited
+
+def dfs(graph, start):
+    visited = []
+    stack = [start]
+    while stack:
+        node = stack.pop() 
+        if node not in visited:
+            visited.append(node)
+            stack.extend(reversed(graph[node]))
+    return visited
+
+start_node = 'A'
+print("Breadth-First Search (BFS):")
+print(bfs(graph, start_node))
+print("\nDepth-First Search (DFS):")
+print(dfs(graph, start_node))</code></pre>
+        </div>
+        <div class="output-box">
+          <div class="output-title">Output:</div>
+          <div class="output-content">Breadth-First Search (BFS):
+['A', 'B', 'C', 'D', 'E', 'F', 'G']
+
+Depth-First Search (DFS):
+['A', 'B', 'D', 'E', 'G', 'C', 'F']</div>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 2 -->
+      <div id="aiml-2" class="program-card">
+        <div class="program-header">
+          <h2>2. 8-Puzzle Problem using State-Space Representation</h2>
+          <div class="program-meta">
+            <span class="badge">Python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>from collections import deque
+
+goal_state = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 0]
+]
+
+def to_tuple(state):
+    return tuple(tuple(row) for row in state)
+
+def find_blank(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+
+def get_neighbors(state):
+    neighbors = []
+    x, y = find_blank(state)
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]  
+    for dx, dy in moves:
+        new_x = x + dx
+        new_y = y + dy
+        if 0 <= new_x < 3 and 0 <= new_y < 3:
+            new_state = [row[:] for row in state]
+            new_state[x][y], new_state[new_x][new_y] = \
+                new_state[new_x][new_y], new_state[x][y]
+            neighbors.append(new_state)
+    return neighbors
+
+def solve_puzzle(start_state):
+    queue = deque()
+    visited = set()
+    queue.append((start_state, []))
+    visited.add(to_tuple(start_state))
+    while queue:
+        current_state, path = queue.popleft()
+
+        if current_state == goal_state:
+            return path + [current_state]
+        for neighbor in get_neighbors(current_state):
+            if to_tuple(neighbor) not in visited:
+                visited.add(to_tuple(neighbor))
+                queue.append((neighbor, path + [current_state]))
+    return None
+
+def print_state(state):
+    for row in state:
+        print(row)
+    print()
+
+start_state = [
+    [1, 0, 3],
+    [4, 2, 6],
+    [7, 5, 8]
+]
+
+solution = solve_puzzle(start_state)
+if solution:
+    print("Solution Found")
+    print("Number of moves:", len(solution) - 1)
+    for step, state in enumerate(solution):
+        print("\nStep", step)
+        print_state(state)
+else:
+    print("No solution found.")</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 3 -->
+      <div id="aiml-3" class="program-card">
+        <div class="program-header">
+          <h2>3. A* Search Algorithm</h2>
+          <div class="program-meta">
+            <span class="badge">Python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>import heapq
+
+graph = {
+    'A': [('B', 2), ('C', 4)],
+    'B': [('D', 7), ('E', 3)],
+    'C': [('F', 2)],
+    'D': [('G', 1)],
+    'E': [('G', 5)],
+    'F': [('G', 3)],
+    'G': []
+}
+
+heuristic = {
+    'A': 9,
+    'B': 8,
+    'C': 5,
+    'D': 1,
+    'E': 5,
+    'F': 3,
+    'G': 0
+}
+
+def astar(start, goal):
+    queue = []
+    heapq.heappush(queue, (heuristic[start], 0, start, [start]))
+    visited = []
+    
+    while queue:
+        f, g, current, path = heapq.heappop(queue)
+        
+        if current in visited:
+            continue
+            
+        print("Current Node :", current)
+        print("g(n) =", g)
+        print("h(n) =", heuristic[current])
+        print("f(n) =", f)
+        print()
+        
+        visited.append(current)
+        
+        if current == goal:
+            return path, g
+            
+        for neighbor, cost in graph[current]:
+            if neighbor not in visited:
+                new_g = g + cost
+                new_f = new_g + heuristic[neighbor]
+                heapq.heappush(queue, (new_f, new_g, neighbor, path + [neighbor]))
+                
+    return None, None
+
+start = 'A'
+goal = 'G'
+path, cost = astar(start, goal)
+
+print("-------------------------")
+if path:
+    print("Optimal Path :", " -> ".join(path))
+    print("Total Cost   :", cost)
+else:
+    print("No path found.")</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 4 -->
+      <div id="aiml-4" class="program-card">
+        <div class="program-header">
+          <h2>4. Hill Climbing Algorithm</h2>
+          <div class="program-meta">
+            <span class="badge">Python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code># Objective Function 
+def objective_function(x): 
+    return -x * x + 10 * x 
+
+# Hill Climbing Function 
+def hill_climbing(start): 
+    current = start 
+    step_size = 1 
+    
+    while True: 
+        # Generate neighboring solutions 
+        left = current - step_size 
+        right = current + step_size 
+        
+        # Evaluate current and neighboring states 
+        current_value = objective_function(current) 
+        left_value = objective_function(left) 
+        right_value = objective_function(right) 
+        
+        # Display current state 
+        print("Current x =", current, " Objective Value =", current_value) 
+        
+        # Move to the better neighboring state 
+        if left_value > current_value: 
+            current = left 
+        elif right_value > current_value: 
+            current = right 
+        # Stop if no better neighbor exists 
+        else: 
+            return current, current_value 
+
+# Main Program 
+start_point = 0 
+best_x, best_value = hill_climbing(start_point) 
+
+print("\nBest Solution Found") 
+print("Optimal x =", best_x) 
+print("Maximum Value =", best_value)</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 5 -->
+      <div id="aiml-5" class="program-card">
+        <div class="program-header">
+          <h2>5. Linear Regression Model</h2>
+          <div class="program-meta">
+            <span class="badge">Python (scikit-learn)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
+Y = np.array([2, 4, 5, 4, 5])
+
+model = LinearRegression()
+model.fit(X, Y)
+
+predicted = model.predict(X)
+
+print("Slope (m):", model.coef_[0])
+print("Intercept (c):", model.intercept_)
+
+new_house = np.array([[1525]])
+predicted_price = model.predict(new_house)
+
+print("Predicted Price for 1525 sq.ft house:", predicted_price[0])
+
+plt.scatter(X, Y, color="blue", label="Actual Data")
+plt.plot(X, predicted, color="red", linewidth=2, label="Regression Line")
+plt.title("House Size vs House Price")
+plt.xlabel("House Size (sq.ft)")
+plt.ylabel("House Price (Lakhs)")
+plt.legend()
+plt.show()</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 6 -->
+      <div id="aiml-6" class="program-card">
+        <div class="program-header">
+          <h2>6. Logistic Regression Classifier (Spam Detector)</h2>
+          <div class="program-meta">
+            <span class="badge">Python (scikit-learn)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+
+# -----------------------------
+# Training Data
+# -----------------------------
+train_emails = [
+    "Congratulations! You won a free lottery",
+    "Claim your prize now",
+    "Limited time offer",
+    "Meeting at 10 AM tomorrow",
+    "Project report submission",
+    "Please attend the class today"
+]
+
+# 1 = Spam, 0 = Not Spam
+train_labels = [1, 1, 1, 0, 0, 0]
+
+print("===== TRAINING DATA =====")
+for email, label in zip(train_emails, train_labels):
+    print(email, "-->", "Spam" if label == 1 else "Not Spam")
+
+# Convert text into numerical features
+vectorizer = CountVectorizer()
+X_train = vectorizer.fit_transform(train_emails)
+
+# Train Logistic Regression Model
+model = LogisticRegression()
+model.fit(X_train, train_labels)
+
+# -----------------------------
+# Testing Data
+# -----------------------------
+test_email = ["Free prize available now"]
+
+print("\n===== TESTING DATA =====")
+print(test_email[0])
+
+X_test = vectorizer.transform(test_email)
+
+# -----------------------------
+# Prediction
+# -----------------------------
+prediction = model.predict(X_test)
+
+print("\n===== PREDICTION =====")
+print(prediction)
+
+# -----------------------------
+# Result
+# -----------------------------
+print("\n===== RESULT =====")
+if prediction[0] == 1:
+    print("The email is classified as SPAM.")
+else:
+    print("The email is classified as NOT SPAM.")</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 7 -->
+      <div id="aiml-7" class="program-card">
+        <div class="program-header">
+          <h2>7. Support Vector Machine (SVM)</h2>
+          <div class="program-meta">
+            <span class="badge">Python (scikit-learn)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    precision_score,
+    recall_score,
+    f1_score
+)
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+print("===== IRIS DATASET =====")
+print("Classes:", iris.target_names)
+print("Total Samples:", len(X))
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2
+)
+
+print("\n===== TRAINING AND TESTING =====")
+print("Training Samples:", len(X_train))
+print("Testing Samples :", len(X_test))
+
+model = SVC(kernel='linear')
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("\n===== PREDICTION =====")
+print("Actual Classes   :", y_test)
+print("Predicted Classes:", y_pred)
+
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
+f1 = f1_score(y_test, y_pred, average='weighted')
+cm = confusion_matrix(y_test, y_pred)
+
+print("\n===== PERFORMANCE =====")
+print("Accuracy  :", round(accuracy * 100, 2), "%")
+print("Precision :", round(precision, 4))
+print("Recall    :", round(recall, 4))
+print("F1-Score  :", round(f1, 4))
+
+print("\n===== CONFUSION MATRIX =====")
+print(cm)</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 8 -->
+      <div id="aiml-8" class="program-card">
+        <div class="program-header">
+          <h2>8. K-Nearest Neighbors (KNN)</h2>
+          <div class="program-meta">
+            <span class="badge">Python (pandas &amp; scikit-learn)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Load dataset
+try:
+    data = pd.read_csv("loan_data_100_records.csv")
+except FileNotFoundError:
+    data = pd.read_csv("Student_043_Loan_Data.csv")
+
+print("===== LOAN DATASET =====")
+print(data.head())
+print("\nTotal Records:", len(data))
+
+data = data[
+    ["ApplicantIncome", "LoanAmount",
+     "Credit_History", "Loan_Status"]
+]
+
+data = data.dropna()
+print("\nRecords after removing missing values:", len(data))
+
+encoder = LabelEncoder()
+data["Loan_Status"] = encoder.fit_transform(data["Loan_Status"])
+
+X = data[["ApplicantIncome", "LoanAmount", "Credit_History"]]
+y = data["Loan_Status"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+print("\nTraining Samples:", len(X_train))
+print("Testing Samples :", len(X_test))
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train_scaled, y_train)
+
+y_pred = knn.predict(X_test_scaled)
+print("\n===== ACTUAL VS PREDICTED =====")
+result_table = pd.DataFrame({
+    "Actual": y_test.values,
+    "Predicted": y_pred
+})
+print(result_table.head())
+
+accuracy = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+print("\n===== MODEL PERFORMANCE =====")
+print("KNN Accuracy:", round(accuracy * 100, 2), "%")
+print("\nConfusion Matrix:")
+print(cm)
+
+new_data = pd.DataFrame(
+    [[5000, 150, 1]],
+    columns=["ApplicantIncome", "LoanAmount", "Credit_History"]
+)
+
+print("\n===== NEW APPLICANT =====")
+print(new_data)
+
+new_data_scaled = scaler.transform(new_data)
+prediction = knn.predict(new_data_scaled)
+loan_status = encoder.inverse_transform(prediction)
+
+if loan_status[0] == "Y":
+    print("\nLoan Status: Approved")
+else:
+    print("\nLoan Status: Not Approved")</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 9 -->
+      <div id="aiml-9" class="program-card">
+        <div class="program-header">
+          <h2>9. Feedforward Neural Network (ANN)</h2>
+          <div class="program-meta">
+            <span class="badge">Python (TensorFlow / Keras)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code># Feedforward Neural Network using TensorFlow
+import numpy as np
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Create Dataset; Features: Glucose Level, BMI, Age
+X = np.array([
+    [85, 22.0, 25],
+    [90, 23.5, 30],
+    [95, 24.0, 28],
+    [100, 25.5, 35],
+    [105, 26.0, 40],
+    [110, 27.5, 45],
+    [115, 28.0, 38],
+    [120, 29.5, 50],
+    [125, 30.0, 42],
+    [130, 31.5, 48],
+    [135, 32.0, 55],
+    [140, 33.0, 52],
+    [145, 34.0, 58],
+    [150, 35.0, 60],
+    [155, 36.0, 62],
+    [160, 37.0, 65],
+    [165, 38.0, 57],
+    [170, 39.0, 68],
+    [175, 40.0, 70],
+    [180, 41.0, 72]
+])
+
+# Target: 0 = Low Risk, 1 = High Risk
+y = np.array([
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1
+])
+
+# Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+print("Training Samples:", len(X_train))
+print("Testing Samples :", len(X_test))
+
+# Scale the Features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Create Feedforward Neural Network
+model = tf.keras.Sequential([
+    tf.keras.layers.Input(shape=(3,)),
+    tf.keras.layers.Dense(8, activation="relu"),
+    tf.keras.layers.Dense(4, activation="relu"),
+    tf.keras.layers.Dense(1, activation="sigmoid")
+])
+
+# Compile the Model
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+# Train the Model
+model.fit(
+    X_train_scaled,
+    y_train,
+    epochs=50,
+    batch_size=4,
+    verbose=0
+)
+
+# Evaluate the Model
+loss, accuracy = model.evaluate(
+    X_test_scaled,
+    y_test,
+    verbose=0
+)
+
+print("\n===== MODEL PERFORMANCE =====")
+print("Test Accuracy:", round(accuracy * 100, 2), "%")
+
+# Enter New Patient Data
+new_patient = np.array([
+    [150, 34.0, 55]
+])
+
+print("\n===== NEW PATIENT =====")
+print("Glucose Level : 150")
+print("BMI           : 34.0")
+print("Age           : 55")
+
+new_patient_scaled = scaler.transform(new_patient)
+
+# Predict
+prediction = model.predict(
+    new_patient_scaled,
+    verbose=0
+)
+
+probability = prediction[0][0]
+
+print("\n===== PREDICTION =====")
+print("Model Output:", round(float(probability), 4))
+
+if probability >= 0.5:
+    print("Diabetes Risk: High Risk")
+else:
+    print("Diabetes Risk: Low Risk")</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- AIML Program 10 -->
+      <div id="aiml-10" class="program-card">
+        <div class="program-header">
+          <h2>10. Convolutional Neural Network (CNN)</h2>
+          <div class="program-meta">
+            <span class="badge">Python (TensorFlow / Keras)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <pre><code># Convolutional Neural Network using TensorFlow
+# Handwritten Digit Classification using MNIST Dataset
+
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+# Load MNIST Dataset
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+
+# Display Dataset Summary
+print("===== MNIST DATASET SUMMARY =====")
+print("Total Training Images :", len(X_train))
+print("Total Testing Images  :", len(X_test))
+print("Image Size            :", X_train.shape[1], "x", X_train.shape[2])
+print("Number of Classes     : 10")
+print("Classes               : 0 to 9")
+
+# Display Sample Images
+plt.figure(figsize=(8, 4))
+for i in range(10):
+    plt.subplot(2, 5, i + 1)
+    plt.imshow(X_train[i], cmap="gray")
+    plt.title("Digit: " + str(y_train[i]))
+    plt.axis("off")
+
+plt.suptitle("Sample MNIST Handwritten Digits")
+plt.tight_layout()
+plt.show()
+
+# Use Smaller Dataset for Faster Execution
+X_train = X_train[:2000]
+y_train = y_train[:2000]
+X_test = X_test[:500]
+y_test = y_test[:500]
+
+print("\n===== DATA USED =====")
+print("Training Images :", len(X_train))
+print("Testing Images  :", len(X_test))
+
+# Normalize Images
+X_train = X_train / 255.0
+X_test = X_test / 255.0
+
+# Add Channel Dimension
+X_train = X_train.reshape(-1, 28, 28, 1)
+X_test = X_test.reshape(-1, 28, 28, 1)
+
+# Create CNN Model
+model = tf.keras.Sequential([
+    tf.keras.layers.Input(shape=(28, 28, 1)),
+    tf.keras.layers.Conv2D(16, (3, 3), activation="relu"),
+    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(32, activation="relu"),
+    tf.keras.layers.Dense(10, activation="softmax")
+])
+
+# Compile Model
+model.compile(
+    optimizer="adam",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+# Train Model
+print("\n===== MODEL TRAINING =====")
+model.fit(
+    X_train,
+    y_train,
+    epochs=2,
+    batch_size=64
+)
+
+# Evaluate Model
+loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+print("\n===== MODEL PERFORMANCE =====")
+print("Test Accuracy:", round(accuracy * 100, 2), "%")
+
+# Select a Random Test Image
+index = random.randint(0, len(X_test) - 1)
+
+# Predict the Random Image
+prediction = model.predict(X_test[index:index + 1], verbose=0)
+predicted_digit = np.argmax(prediction[0])
+actual_digit = y_test[index]
+
+# Display Prediction
+print("\n===== DIGIT PREDICTION =====")
+print("Test Image No. :", index)
+print("Actual Digit   :", actual_digit)
+print("Predicted Digit:", predicted_digit)
+
+# Display the Random Test Image
+plt.imshow(X_test[index].reshape(28, 28), cmap="gray")
+plt.title(f"Actual: {actual_digit}\nPredicted: {predicted_digit}")
+plt.axis("off")
+plt.show()</code></pre>
+        </div>
+        <a href="#aiml-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- SECTION 2: OSC (7 PRACTICALS WITH CORRECT SPACING)                -->
+    <!-- ================================================================= -->
+    <div id="osc-section" class="section">
+      
+      <div class="section-title">
+        <span>Open Source &amp; Web Technologies (OSC)</span>
+        <span class="section-count">7 Programs (Clean Indentation)</span>
+      </div>
+
+      <!-- Table of Contents -->
+      <div class="toc-box">
+        <h3>Program Index</h3>
+        <div class="toc-grid">
+          <a class="toc-link" href="#osc-1">1. Image Slideshow (HTML, CSS, JS)</a>
+          <a class="toc-link" href="#osc-2">2. Electricity Bill Calculator (PHP)</a>
+          <a class="toc-link" href="#osc-3">3. Feedback Form with MySQL</a>
+          <a class="toc-link" href="#osc-4">4. User Authentication &amp; Login System</a>
+          <a class="toc-link" href="#osc-5">5. Create and Read a Text File in Node.js</a>
+          <a class="toc-link" href="#osc-6">6. Student Registration Form (Express)</a>
+          <a class="toc-link" href="#osc-7">7. Employee Information Portal (MERN)</a>
+        </div>
+      </div>
+
+      <!-- OSC Program 1 -->
+      <div id="osc-1" class="program-card">
+        <div class="program-header">
+          <h2>1. Image Slideshow</h2>
+          <div class="program-meta">
+            <span class="badge">HTML / CSS / JS</span>
+          </div>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File: index.html</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Image Slideshow&lt;/title&gt;
+  &lt;link rel="stylesheet" href="./style.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;img src="./assets/img1.jpg" alt="Slideshow Image" id="slide_show" class="image" /&gt;
+  &lt;script src="./app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File: style.css</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>.image {
+  height: 500px;
+  width: 500px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File: app.js</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>let images = [
+  "./assets/img1.jpg",
+  "./assets/img2.jpg",
+  "./assets/img3.jpg",
+  "./assets/img4.avif"
+];
+
+let index = 0;
+let slide = document.getElementById('slide_show');
+
+let changeimg = () => {
+  index++; // Move to next image
+  if (index >= images.length) {
+    index = 0; // Loop back to start
+  }
+  slide.src = images[index];
+};
+
+setInterval(changeimg, 2000);</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 2 -->
+      <div id="osc-2" class="program-card">
+        <div class="program-header">
+          <h2>2. Electricity Bill Calculator</h2>
+          <div class="program-meta">
+            <span class="badge">PHP &amp; HTML Form</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File: electricity_bill.php (Clean Spacing - PDF Page Numbers Removed)</span>
+          </div>
+          <pre><code>&lt;?php
+// Initialize variables
+$show_bill = false;
+$name = "";
+$units = "";
+$energy_charges = 0;
+$fixed_charges = 50.00;
+$total_amount = 0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST['consumer_name']);
+    $units = (int)$_POST['units'];
+
+    // Calculation Logic
+    // First 100 units @ ₹ 2.50
+    // Remaining units @ ₹ 3.50
+    if ($units <= 100) {
+        $energy_charges = $units * 2.50;
+    } else {
+        $energy_charges = (100 * 2.50) + (($units - 100) * 3.50);
+    }
+
+    $total_amount = $energy_charges + $fixed_charges;
+    $show_bill = true;
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Electricity Bill Generator&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            background-color: #eaf5fa;
+            font-family: Arial, sans-serif;
+            color: #00334e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #003b5c;
+            margin-bottom: 30px;
+        }
+
+        .form-table {
+            border-spacing: 0 15px;
+        }
+
+        .form-table td {
+            padding: 0 10px;
+        }
+
+        .form-table label {
+            font-weight: bold;
+            color: #003b5c;
+        }
+
+        .form-table input {
+            padding: 8px;
+            border: 1px solid #a8c6d9;
+            border-radius: 3px;
+            width: 170px;
+            font-size: 14px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .submit-btn {
+            padding: 6px 15px;
+            background-color: #f7fbfc;
+            border: 1px solid #7094a8;
+            color: #003b5c;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .submit-btn:hover {
+            background-color: #dbeaf1;
+        }
+
+        .bill-container {
+            margin-top: 40px;
+            background-color: #ffffff;
+            border: 2px solid #1c4b66;
+            padding: 30px 40px;
+            width: 420px;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bill-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #003b5c;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #cbd6dd;
+            margin: 15px 0;
+        }
+
+        .bill-details {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .bill-details td {
+            padding: 8px 0;
+            font-size: 15px;
+        }
+
+        .bill-details td:first-child {
+            font-weight: bold;
+            color: #003b5c;
+            width: 60%;
+        }
+
+        .bill-details td:last-child {
+            color: #2c5973;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: #922036;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .footer-msg {
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: #003b5c;
+            margin-top: 20px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Electricity Bill Generator&lt;/h1&gt;
+    &lt;form method="POST" action=""&gt;
+        &lt;table class="form-table"&gt;
+            &lt;tr&gt;
+                &lt;td align="right"&gt;&lt;label for="consumer_name"&gt;Consumer Name&lt;/label&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;input type="text" id="consumer_name" name="consumer_name" 
+                    value="&lt;?php echo htmlspecialchars($name); ?&gt;" required&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td align="right"&gt;&lt;label for="units"&gt;Units Consumed&lt;/label&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;input type="number" id="units" name="units" value="&lt;?php echo 
+                    htmlspecialchars($units); ?&gt;" required min="0"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;div class="btn-container"&gt;
+            &lt;button type="submit" class="submit-btn"&gt;Generate Bill&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;?php if ($show_bill): ?&gt;
+    &lt;div class="bill-container"&gt;
+        &lt;div class="bill-title"&gt;TNEB ELECTRICITY BILL&lt;/div&gt;
+        &lt;hr&gt;
+        &lt;table class="bill-details"&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Consumer Name&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo htmlspecialchars($name); ?&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Units Consumed&lt;/td&gt;
+                &lt;td&gt;&lt;?php echo $units; ?&gt; Units&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Energy Charges&lt;/td&gt;
+                &lt;td&gt;₹ &lt;?php echo number_format($energy_charges, 2); ?&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Fixed Charges&lt;/td&gt;
+                &lt;td&gt;₹ &lt;?php echo number_format($fixed_charges, 2); ?&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;hr&gt;
+        &lt;div class="total-row"&gt;
+            &lt;span&gt;Total Bill Amount&lt;/span&gt;
+            &lt;span&gt;₹ &lt;?php echo number_format($total_amount, 2); ?&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;hr&gt;
+        &lt;div class="footer-msg"&gt;Thank You - Pay Before Due Date&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php endif; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 3 -->
+      <div id="osc-3" class="program-card">
+        <div class="program-header">
+          <h2>3. Feedback Form with MySQL Database</h2>
+          <div class="program-meta">
+            <span class="badge">PHP &amp; MySQL</span>
+          </div>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 1: db.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+$servername = "localhost"; 
+$username   = "root"; 
+$password   = ""; 
+$database   = "feedbackdb"; 
+
+// Create database connection
+$conn = mysqli_connect($servername, $username, $password, $database); 
+
+// Check database connection
+if (!$conn) { 
+    die("Connection failed: " . mysqli_connect_error()); 
+} 
+?&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 2: index.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+include("db.php"); 
+
+if (isset($_POST['submit'])) { 
+    $name    = mysqli_real_escape_string($conn, $_POST['name']); 
+    $email   = mysqli_real_escape_string($conn, $_POST['email']); 
+    $message = mysqli_real_escape_string($conn, $_POST['message']); 
+
+    $sql = "INSERT INTO feedback(name, email, message) VALUES ('$name', '$email', '$message')"; 
+    if (mysqli_query($conn, $sql)) { 
+        echo "&lt;script&gt;alert('Feedback submitted Successfully');&lt;/script&gt;"; 
+    } else { 
+        echo "Error: " . mysqli_error($conn); 
+    } 
+} 
+?&gt; 
+&lt;!DOCTYPE html&gt; 
+&lt;html lang="en"&gt; 
+&lt;head&gt; 
+    &lt;meta charset="UTF-8"&gt; 
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; 
+    &lt;title&gt;Feedback System&lt;/title&gt; 
+    &lt;style&gt; 
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f2f2f2; 
+            margin: 0; 
+            padding: 0; 
+        } 
+        form { 
+            width: 400px; 
+            margin: 80px auto 20px; 
+            padding: 30px; 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+        } 
+        h2 { 
+            text-align: center; 
+            margin-bottom: 25px; 
+        } 
+        label { 
+            display: block; 
+            margin-top: 15px; 
+            margin-bottom: 6px; 
+            font-weight: bold; 
+        } 
+        input[type="text"], 
+        input[type="email"], 
+        textarea { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+            font-size: 14px; 
+        } 
+        textarea { 
+            resize: vertical; 
+        } 
+        input[type="submit"] { 
+            width: 100%; 
+            padding: 12px; 
+            margin-top: 20px; 
+            border: none; 
+            border-radius: 5px; 
+            background-color: #333; 
+            color: white; 
+            font-size: 16px; 
+            cursor: pointer; 
+        } 
+        input[type="submit"]:hover { 
+            background-color: #555; 
+        } 
+        a { 
+            display: block; 
+            width: 400px; 
+            margin: 10px auto; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #333; 
+            font-weight: bold; 
+        } 
+        a:hover { 
+            text-decoration: underline; 
+        } 
+    &lt;/style&gt; 
+&lt;/head&gt; 
+&lt;body&gt; 
+    &lt;form action="" method="post"&gt; 
+        &lt;h2&gt;Feedback Form&lt;/h2&gt; 
+        &lt;label&gt;Name&lt;/label&gt; 
+        &lt;input type="text" name="name" required&gt; 
+        &lt;label&gt;Email&lt;/label&gt; 
+        &lt;input type="email" name="email" required&gt; 
+        &lt;label&gt;Feedback&lt;/label&gt; 
+        &lt;textarea name="message" rows="5" required&gt;&lt;/textarea&gt; 
+        &lt;input type="submit" name="submit" value="Submit Feedback" /&gt; 
+    &lt;/form&gt; 
+    &lt;a href="./view.php"&gt;View Data&lt;/a&gt; 
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 3: view.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+include("db.php"); 
+?&gt; 
+&lt;!DOCTYPE html&gt; 
+&lt;html lang="en"&gt; 
+&lt;head&gt; 
+    &lt;meta charset="UTF-8"&gt; 
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; 
+    &lt;title&gt;View Feedback&lt;/title&gt; 
+    &lt;style&gt; 
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+        } 
+        body { 
+            background: #f4f6f9; 
+            padding: 40px 20px; 
+        } 
+        .container { 
+            max-width: 1000px; 
+            margin: auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
+        } 
+        h1 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 25px; 
+        } 
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 25px; 
+        } 
+        th { 
+            background: #333; 
+            color: white; 
+            padding: 14px; 
+            text-align: left; 
+        } 
+        td { 
+            padding: 12px 14px; 
+            border-bottom: 1px solid #ddd; 
+            color: #444; 
+        } 
+        tr:hover { 
+            background: #f5f5f5; 
+        } 
+        .back-btn { 
+            display: inline-block; 
+            text-decoration: none; 
+            background: #333; 
+            color: white; 
+            padding: 10px 18px; 
+            border-radius: 6px; 
+        } 
+        .back-btn:hover { 
+            background: #555; 
+        } 
+        @media (max-width: 700px) { 
+            .container { 
+                padding: 15px; 
+                overflow-x: auto; 
+            } 
+            table { 
+                min-width: 600px; 
+            } 
+        } 
+    &lt;/style&gt; 
+&lt;/head&gt; 
+&lt;body&gt; 
+    &lt;div class="container"&gt; 
+        &lt;h1&gt;Feedback Details&lt;/h1&gt; 
+        &lt;table&gt; 
+            &lt;tr&gt; 
+                &lt;th&gt;ID&lt;/th&gt; 
+                &lt;th&gt;Name&lt;/th&gt; 
+                &lt;th&gt;Email&lt;/th&gt; 
+                &lt;th&gt;Message&lt;/th&gt; 
+            &lt;/tr&gt; 
+            &lt;?php 
+            $sql = "SELECT * FROM feedback"; 
+            $result = mysqli_query($conn, $sql); 
+            while($row = mysqli_fetch_assoc($result)) { 
+            ?&gt; 
+            &lt;tr&gt; 
+                &lt;td&gt;&lt;?php echo $row['id']; ?&gt;&lt;/td&gt; 
+                &lt;td&gt;&lt;?php echo htmlspecialchars($row['name']); ?&gt;&lt;/td&gt; 
+                &lt;td&gt;&lt;?php echo htmlspecialchars($row['email']); ?&gt;&lt;/td&gt; 
+                &lt;td&gt;&lt;?php echo htmlspecialchars($row['message']); ?&gt;&lt;/td&gt; 
+            &lt;/tr&gt; 
+            &lt;?php 
+            } 
+            ?&gt; 
+        &lt;/table&gt; 
+        &lt;a href="./index.php" class="back-btn"&gt;&larr; Back to Form&lt;/a&gt; 
+    &lt;/div&gt; 
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 4 -->
+      <div id="osc-4" class="program-card">
+        <div class="program-header">
+          <h2>4. User Authentication &amp; Login System</h2>
+          <div class="program-meta">
+            <span class="badge">PHP Sessions</span>
+          </div>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 1: db.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+$servername = "localhost"; 
+$username   = "root"; 
+$password   = ""; 
+$database   = "login"; 
+$port       = 3308; // Adjust to 3306 or 3308 based on your MySQL port
+
+$conn = mysqli_connect($servername, $username, $password, $database, $port); 
+
+if (!$conn) { 
+    die("Connection failed: " . mysqli_connect_error()); 
+} 
+?&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 2: login.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+session_start(); 
+include('db.php'); 
+
+if (isset($_POST['submit'])) { 
+    $username = mysqli_real_escape_string($conn, $_POST['username']); 
+    $password = mysqli_real_escape_string($conn, $_POST['password']); 
+
+    $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'"; 
+    $result = mysqli_query($conn, $sql); 
+
+    if (mysqli_num_rows($result) == 1) { 
+        $_SESSION["username"] = $username; 
+        header("Location: dashboard.php"); 
+        exit(); 
+    } else { 
+        $error = "Invalid username or password"; 
+    } 
+} 
+?&gt; 
+&lt;!DOCTYPE html&gt; 
+&lt;html lang="en"&gt; 
+&lt;head&gt; 
+    &lt;meta charset="UTF-8"&gt; 
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; 
+    &lt;title&gt;User Login&lt;/title&gt; 
+    &lt;style&gt; 
+        * { 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        } 
+        body { 
+            margin: 0; 
+            background: #f5f3e8; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        } 
+        .login-box { 
+            width: 380px; 
+            background: white; 
+            padding: 35px; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12); 
+        } 
+        h2 { 
+            text-align: center; 
+            color: #315c45; 
+            margin-bottom: 25px; 
+        } 
+        label { 
+            display: block; 
+            margin-bottom: 7px; 
+            color: #444; 
+        } 
+        input[type="text"], 
+        input[type="password"] { 
+            width: 100%; 
+            padding: 11px; 
+            margin-bottom: 18px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        } 
+        input:focus { 
+            outline: none; 
+            border-color: #315c45; 
+        } 
+        .login-btn { 
+            width: 100%; 
+            padding: 12px; 
+            background: #315c45; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 15px; 
+        } 
+        .login-btn:hover { 
+            background: #264936; 
+        } 
+        .error { 
+            background: #f8dddd; 
+            color: #a33a3a; 
+            padding: 10px; 
+            margin-bottom: 18px; 
+            border-radius: 5px; 
+            text-align: center; 
+        } 
+    &lt;/style&gt; 
+&lt;/head&gt; 
+&lt;body&gt; 
+    &lt;div class="login-box"&gt; 
+        &lt;h2&gt;User Login&lt;/h2&gt; 
+        &lt;?php if (isset($error)) { ?&gt; 
+            &lt;div class="error"&gt;&lt;?php echo $error; ?&gt;&lt;/div&gt; 
+        &lt;?php } ?&gt; 
+        &lt;form method="post"&gt; 
+            &lt;label&gt;Username&lt;/label&gt; 
+            &lt;input type="text" name="username" placeholder="Enter username" required&gt; 
+            &lt;label&gt;Password&lt;/label&gt; 
+            &lt;input type="password" name="password" placeholder="Enter password" required&gt; 
+            &lt;input type="submit" name="submit" value="Login" class="login-btn"&gt; 
+        &lt;/form&gt; 
+    &lt;/div&gt; 
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 3: dashboard.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+session_start(); 
+if (!isset($_SESSION['username'])) { 
+    header("Location: login.php"); 
+    exit(); 
+} 
+?&gt; 
+&lt;!DOCTYPE html&gt; 
+&lt;html lang="en"&gt; 
+&lt;head&gt;   
+    &lt;meta charset="UTF-8"&gt; 
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; 
+    &lt;title&gt;Dashboard&lt;/title&gt; 
+    &lt;style&gt; 
+        * { 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        } 
+        body { 
+            margin: 0; 
+            background: #f5f3e8; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        } 
+        .dashboard { 
+            width: 420px; 
+            background: white; 
+            padding: 40px; 
+            text-align: center; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12); 
+        } 
+        .dashboard h1 { 
+            color: #315c45; 
+            margin-bottom: 10px; 
+        } 
+        .dashboard p { 
+            color: #666;   
+            margin-bottom: 30px; 
+        } 
+        .logout { 
+            display: inline-block; 
+            padding: 11px 30px; 
+            background: #315c45; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+        } 
+        .logout:hover { 
+            background: #264936; 
+        } 
+    &lt;/style&gt; 
+&lt;/head&gt; 
+&lt;body&gt; 
+    &lt;div class="dashboard"&gt; 
+        &lt;h1&gt;Welcome, &lt;?php echo htmlspecialchars($_SESSION['username']); ?&gt;&lt;/h1&gt; 
+        &lt;p&gt;You have successfully logged in.&lt;/p&gt; 
+        &lt;a href="logout.php" class="logout"&gt;Logout&lt;/a&gt; 
+    &lt;/div&gt;   
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 4: logout.php</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;?php 
+session_start(); 
+session_destroy(); 
+header("Location: login.php"); 
+exit(); 
+?&gt;</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 5 -->
+      <div id="osc-5" class="program-card">
+        <div class="program-header">
+          <h2>5. Create and Read a Text File in Node.js</h2>
+          <div class="program-meta">
+            <span class="badge">Node.js (fs module)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+        </div>
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File: app.js (Fixed template string &amp; correct nesting)</span>
+          </div>
+          <pre><code>const fs = require('fs');
+
+const file1 = "page.txt";
+const data = `Employee Name: 'pavithra',
+Employee ID: '001';`;
+
+// Step 1: Write data to text file
+fs.writeFile(file1, data, function (err) {
+  if (err) {
+    console.error("Error writing file:", err);
+    return;
+  }
+  console.log("File created successfully!");
+
+  // Step 2: Read and display data from the text file
+  fs.readFile(file1, 'utf8', (err, fileData) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return;
+    }
+    console.log("File Content:");
+    console.log(fileData);
+  });
+});</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 6 -->
+      <div id="osc-6" class="program-card">
+        <div class="program-header">
+          <h2>6. Student Registration Form</h2>
+          <div class="program-meta">
+            <span class="badge">Express.js &amp; Sessions</span>
+          </div>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 1: views/login.html</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Student Registration - Login&lt;/title&gt;
+  &lt;link rel="stylesheet" href="/style.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Student Registration System&lt;/h1&gt;
+    &lt;h2&gt;Login&lt;/h2&gt;
+    &lt;form action="/login" method="POST"&gt;
+      &lt;label for="username"&gt;Username&lt;/label&gt;
+      &lt;input type="text" id="username" name="username" required /&gt;
+
+      &lt;label for="password"&gt;Password&lt;/label&gt;
+      &lt;input type="password" id="password" name="password" required /&gt;
+
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;p class="info"&gt;
+      Username: &lt;b&gt;admin&lt;/b&gt;&lt;br /&gt;
+      Password: &lt;b&gt;1234&lt;/b&gt;
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 2: views/register.html</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Student Registration&lt;/title&gt;
+  &lt;link rel="stylesheet" href="/style.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Student Registration Form&lt;/h1&gt;
+    &lt;form action="/register" method="POST"&gt;
+      &lt;label&gt;Student Name&lt;/label&gt;
+      &lt;input type="text" name="name" required /&gt;
+
+      &lt;label&gt;Register Number&lt;/label&gt;
+      &lt;input type="text" name="regno" required /&gt;
+
+      &lt;label&gt;Email&lt;/label&gt;
+      &lt;input type="email" name="email" required /&gt;
+
+      &lt;label&gt;Mobile Number&lt;/label&gt;
+      &lt;input
+        type="text"
+        name="mobile"
+        pattern="[0-9]{10}"
+        maxlength="10"
+        placeholder="10-digit mobile number"
+        required
+      /&gt;
+
+      &lt;label&gt;Gender&lt;/label&gt;
+      &lt;div class="radio"&gt;
+        &lt;label&gt;&lt;input type="radio" name="gender" value="Male" required /&gt; Male&lt;/label&gt;
+        &lt;label&gt;&lt;input type="radio" name="gender" value="Female" /&gt; Female&lt;/label&gt;
+        &lt;label&gt;&lt;input type="radio" name="gender" value="Other" /&gt; Other&lt;/label&gt;
+      &lt;/div&gt;
+
+      &lt;label&gt;Date of Birth&lt;/label&gt;
+      &lt;input type="date" name="dob" required /&gt;
+
+      &lt;label&gt;Department&lt;/label&gt;
+      &lt;select name="department" required&gt;
+        &lt;option value=""&gt;Select Department&lt;/option&gt;
+        &lt;option value="Computer Applications"&gt;Computer Applications&lt;/option&gt;
+        &lt;option value="Computer Science"&gt;Computer Science&lt;/option&gt;
+        &lt;option value="Information Technology"&gt;Information Technology&lt;/option&gt;
+        &lt;option value="Electronics"&gt;Electronics&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;Course&lt;/label&gt;
+      &lt;select name="course" required&gt;
+        &lt;option value=""&gt;Select Course&lt;/option&gt;
+        &lt;option value="MCA"&gt;MCA&lt;/option&gt;
+        &lt;option value="M.Sc Computer Science"&gt;M.Sc Computer Science&lt;/option&gt;
+        &lt;option value="BCA"&gt;BCA&lt;/option&gt;
+        &lt;option value="B.Sc Computer Science"&gt;B.Sc Computer Science&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;Year&lt;/label&gt;
+      &lt;select name="year" required&gt;
+        &lt;option value=""&gt;Select Year&lt;/option&gt;
+        &lt;option value="1st Year"&gt;1st Year&lt;/option&gt;
+        &lt;option value="2nd Year"&gt;2nd Year&lt;/option&gt;
+        &lt;option value="3rd Year"&gt;3rd Year&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;Address&lt;/label&gt;
+      &lt;textarea name="address" rows="4" required&gt;&lt;/textarea&gt;
+
+      &lt;label&gt;Skills&lt;/label&gt;
+      &lt;div class="skills"&gt;
+        &lt;label&gt;&lt;input type="checkbox" name="skills" value="Python" /&gt; Python&lt;/label&gt;
+        &lt;label&gt;&lt;input type="checkbox" name="skills" value="Java" /&gt; Java&lt;/label&gt;
+        &lt;label&gt;&lt;input type="checkbox" name="skills" value="JavaScript" /&gt; JavaScript&lt;/label&gt;
+        &lt;label&gt;&lt;input type="checkbox" name="skills" value="HTML/CSS" /&gt; HTML/CSS&lt;/label&gt;
+        &lt;label&gt;&lt;input type="checkbox" name="skills" value="Node.js" /&gt; Node.js&lt;/label&gt;
+      &lt;/div&gt;
+
+      &lt;button type="submit"&gt;Register Student&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;a class="logout" href="/logout"&gt;Logout&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 3: views/student.html</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Student Details&lt;/title&gt;
+  &lt;link rel="stylesheet" href="/style.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Student Registration Successful&lt;/h1&gt;
+    &lt;div id="studentDetails"&gt;Loading student details...&lt;/div&gt;
+    &lt;br /&gt;
+    &lt;a class="button" href="/register"&gt;Register Another Student&lt;/a&gt;
+    &lt;a class="logout" href="/logout"&gt;Logout&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    fetch("/student-data")
+      .then((response) => response.json())
+      .then((student) => {
+        const skillsDisplay = Array.isArray(student.skills) 
+          ? student.skills.join(", ") 
+          : (student.skills || "None");
+
+        document.getElementById("studentDetails").innerHTML = `
+          &lt;table&gt;
+            &lt;tr&gt;&lt;th&gt;Student Name&lt;/th&gt;&lt;td&gt;${student.name}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Register Number&lt;/th&gt;&lt;td&gt;${student.regno}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Email&lt;/th&gt;&lt;td&gt;${student.email}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Mobile Number&lt;/th&gt;&lt;td&gt;${student.mobile}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Gender&lt;/th&gt;&lt;td&gt;${student.gender}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Date of Birth&lt;/th&gt;&lt;td&gt;${student.dob}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Department&lt;/th&gt;&lt;td&gt;${student.department}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Course&lt;/th&gt;&lt;td&gt;${student.course}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Year&lt;/th&gt;&lt;td&gt;${student.year}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Address&lt;/th&gt;&lt;td&gt;${student.address}&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;th&gt;Skills&lt;/th&gt;&lt;td&gt;${skillsDisplay}&lt;/td&gt;&lt;/tr&gt;
+          &lt;/table&gt;
+        `;
+      })
+      .catch((err) => {
+        document.getElementById("studentDetails").innerHTML = "&lt;p&gt;Error loading student details.&lt;/p&gt;";
+      });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 4: public/style.css</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 30px;
+}
+
+.container {
+  width: 650px;
+  max-width: 90%;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.radio {
+  margin-top: 8px;
+}
+
+.radio input {
+  width: auto;
+  margin-right: 5px;
+}
+
+.skills label {
+  font-weight: normal;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.skills input {
+  width: auto;
+}
+
+button,
+.button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover,
+.button:hover {
+  background: #555;
+}
+
+.logout {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: red;
+  text-decoration: none;
+}
+
+.logout:hover {
+  text-decoration: underline;
+}
+
+.info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #aaa;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  width: 35%;
+  background-color: #f7f7f7;
+}</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 5: app.js (Clean __dirname and Proper Spacing)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>const express = require("express");
+const session = require("express-session");
+const path = require("path");
+
+const app = express();
+const PORT = 3000;
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "student-registration-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Login page route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "login.html"));
+});
+
+// Login POST Handler
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  if (username === "admin" && password === "1234") {
+    req.session.loggedIn = true;
+    res.redirect("/register");
+  } else {
+    res.send(`
+      &lt;h2&gt;Invalid username or password&lt;/h2&gt;
+      &lt;a href="/"&gt;Back to Login&lt;/a&gt;
+    `);
+  }
+});
+
+// Registration page route
+app.get("/register", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  res.sendFile(path.join(__dirname, "views", "register.html"));
+});
+
+// Handle student registration
+app.post("/register", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  const {
+    name,
+    regno,
+    email,
+    mobile,
+    gender,
+    dob,
+    department,
+    course,
+    year,
+    address,
+    skills,
+  } = req.body;
+
+  // Validation
+  if (
+    !name ||
+    !regno ||
+    !email ||
+    !mobile ||
+    !gender ||
+    !dob ||
+    !department ||
+    !course ||
+    !year ||
+    !address
+  ) {
+    return res.send(`
+      &lt;h2&gt;All required fields must be filled.&lt;/h2&gt;
+      &lt;a href="/register"&gt;Go Back&lt;/a&gt;
+    `);
+  }
+
+  // Email validation regex
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return res.send(`
+      &lt;h2&gt;Invalid email address.&lt;/h2&gt;
+      &lt;a href="/register"&gt;Go Back&lt;/a&gt;
+    `);
+  }
+
+  // Mobile validation regex
+  const mobilePattern = /^[0-9]{10}$/;
+  if (!mobilePattern.test(mobile)) {
+    return res.send(`
+      &lt;h2&gt;Mobile number must contain exactly 10 digits.&lt;/h2&gt;
+      &lt;a href="/register"&gt;Go Back&lt;/a&gt;
+    `);
+  }
+
+  // Store student details in session
+  req.session.student = {
+    name,
+    regno,
+    email,
+    mobile,
+    gender,
+    dob,
+    department,
+    course,
+    year,
+    address,
+    skills: skills || "None",
+  };
+  res.redirect("/student");
+});
+
+// Display student details page
+app.get("/student", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/");
+  }
+  if (!req.session.student) {
+    return res.redirect("/register");
+  }
+  res.sendFile(path.join(__dirname, "views", "student.html"));
+});
+
+// Student data API endpoint
+app.get("/student-data", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  res.json(req.session.student);
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+      <!-- OSC Program 7 -->
+      <div id="osc-7" class="program-card">
+        <div class="program-header">
+          <h2>7. Employee Information Portal</h2>
+          <div class="program-meta">
+            <span class="badge">Node.js, Express &amp; MongoDB</span>
+          </div>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 1: models/Employee.js</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>const mongoose = require("mongoose");
+
+const employeeSchema = new mongoose.Schema({
+  empId:       { type: String, required: true, unique: true },
+  name:        { type: String, required: true },
+  email:       { type: String, required: true },
+  phone:       { type: String, required: true },
+  department:  { type: String, required: true },
+  designation: { type: String, required: true },
+  salary:      { type: Number, required: true },
+  joiningDate: { type: Date, required: true },
+  address:     { type: String },
+  skills:      { type: [String] }, // Array of strings
+});
+
+module.exports = mongoose.model("Employee", employeeSchema);</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 2: models/Admin.js</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>const mongoose = require("mongoose");
+
+const adminSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Admin", adminSchema);</code></pre>
+        </div>
+
+        <div class="file-block">
+          <div class="file-header">
+            <span class="file-title">File 3: server.js (Clean Indentation &amp; No Stray Numbers)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+          </div>
+          <pre><code>require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
+
+const Admin = require("./models/Admin");
+const Employee = require("./models/Employee");
+
+const app = express();
+
+// Middleware
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "my-super-secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/employee_portal", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(async () => {
+    console.log("Connected to MongoDB");
+    const adminExists = await Admin.findOne({ username: "admin" });
+    if (!adminExists) {
+      const hashedPassword = await bcrypt.hash("password123", 10);
+      await Admin.create({ username: "admin", password: hashedPassword });
+      console.log("Default admin created (Username: admin, Password: password123)");
+    }
+  })
+  .catch((err) => console.log("MongoDB connection error:", err));
+
+// Authentication Middleware
+const requireAuth = (req, res, next) => {
+  if (req.session.adminId) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
+// --- ROUTES ---
+app.get("/login", (req, res) => res.render("login", { error: null }));
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const admin = await Admin.findOne({ username });
+  if (admin && (await bcrypt.compare(password, admin.password))) {
+    req.session.adminId = admin._id;
+    res.redirect("/");
+  } else {
+    res.render("login", { error: "Invalid username or password" });
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
+});
+
+// Dashboard
+app.get("/", requireAuth, async (req, res) => {
+  const { search, department } = req.query;
+  let query = {};
+  if (search) query.name = new RegExp(search, "i");
+  if (department) query.department = department;
+
+  const employees = await Employee.find(query).sort({ joiningDate: -1 });
+  const departments = await Employee.distinct("department");
+  res.render("dashboard", {
+    employees,
+    departments,
+    searchQuery: search,
+    deptQuery: department,
+  });
+});
+
+// Add Employee
+app.get("/add", requireAuth, (req, res) => res.render("add"));
+
+app.post("/add", requireAuth, async (req, res) => {
+  try {
+    const newEmployee = new Employee({
+      ...req.body,
+      skills: req.body.skills ? req.body.skills.split(",").map((s) => s.trim()) : [],
+    });
+    await newEmployee.save();
+    res.redirect("/");
+  } catch (err) {
+    res.send("Error saving employee. Ensure Emp ID is unique.");
+  }
+});
+
+// View Single Employee
+app.get("/view/:id", requireAuth, async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+  if (!employee) return res.status(404).send("Employee not found");
+  res.render("view", { employee });
+});
+
+// Edit Employee
+app.get("/edit/:id", requireAuth, async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+  res.render("edit", { employee });
+});
+
+app.post("/edit/:id", requireAuth, async (req, res) => {
+  await Employee.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+    skills: req.body.skills ? req.body.skills.split(",").map((s) => s.trim()) : [],
+  });
+  res.redirect("/");
+});
+
+// Delete Employee
+app.post("/delete/:id", requireAuth, async (req, res) => {
+  await Employee.findByIdAndDelete(req.params.id);
+  res.redirect("/");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});</code></pre>
+        </div>
+        <a href="#osc-section" class="back-top">&uarr; Back to Index</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast-msg"></div>
+
+  <!-- Script -->
+  <script src="./app.js"></script>
+
+</body>
+</html>
