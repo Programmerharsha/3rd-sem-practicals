@@ -201,6 +201,40 @@ header p {
   border-radius: 4px;
 }
 
+/* Program aim and algorithm */
+.program-purpose {
+  padding: 16px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.program-purpose h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.program-purpose p,
+.program-purpose ol,
+.program-purpose ul {
+  margin-left: 20px;
+}
+
+.program-purpose ol,
+.program-purpose ul {
+  padding-left: 18px;
+}
+
+.program-purpose li {
+  margin-bottom: 4px;
+}
+
+.program-purpose h3:not(:first-child) {
+  margin-top: 14px;
+}
+
 /* Sub-file container within a program */
 .file-block {
   border-bottom: 1px solid var(--border-color);

@@ -62,6 +62,28 @@
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
         </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To implement state-space search algorithms using Breadth-First Search (BFS) and Depth-First Search (DFS) for a basic graph problem.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start the program.</li>
+            <li>Create a graph using an adjacency list.</li>
+            <li>Define the starting node as A.</li>
+            <li>Create a BFS function with graph and start node as inputs.</li>
+            <li>Initialize an empty visited list for BFS.</li>
+            <li>Initialize a queue with the starting node.</li>
+            <li>Remove the first node from the queue.</li>
+            <li>If the node is not visited, add it to the visited list.</li>
+            <li>Add all adjacent nodes of the current node to the queue.</li>
+            <li>Repeat Steps 7 to 9 until the queue becomes empty.</li>
+            <li>Create a DFS function with graph and start node as inputs.</li>
+            <li>Initialize an empty visited list and a stack with the starting node.</li>
+            <li>Remove the last node from the stack.</li>
+            <li>If the node is not visited, add it to the visited list and add its adjacent nodes to the stack in reverse order.</li>
+            <li>Repeat Steps 13 and 14 until the stack becomes empty, then display the BFS and DFS traversal order.</li>
+          </ol>
+        </div>
         <div class="file-block">
           <pre><code>graph = {
     'A': ['B', 'C'],
@@ -118,6 +140,29 @@ Depth-First Search (DFS):
             <span class="badge">Python</span>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
+        </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To solve the 8-Puzzle Problem using state-space search by representing the initial and goal states and finding a sequence of valid moves to reach the goal state.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start.</li>
+            <li>Define the initial state and goal state.</li>
+            <li>Create an empty queue.</li>
+            <li>Insert the initial state into the queue.</li>
+            <li>Create an empty visited list.</li>
+            <li>Mark the initial state as visited.</li>
+            <li>Remove a state from the front of the queue.</li>
+            <li>Check whether the current state is the goal state.</li>
+            <li>If the goal state is reached, display the solution and stop.</li>
+            <li>Find the position of the blank tile (0).</li>
+            <li>Generate all possible new states by moving the blank tile up, down, left, or right.</li>
+            <li>For each generated state, check whether it is already visited.</li>
+            <li>If not visited, mark it as visited and insert it into the queue.</li>
+            <li>Repeat Steps 7 to 13 until the queue becomes empty.</li>
+            <li>If the queue becomes empty, display "No Solution Found".</li>
+            <li>Stop.</li>
+          </ol>
         </div>
         <div class="file-block">
           <pre><code>from collections import deque
@@ -200,6 +245,25 @@ else:
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
         </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To design and implement the A* Search algorithm using a suitable heuristic function to find the optimal path from a start node to a goal node.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start.</li>
+            <li>Define the graph with nodes, edges, and their corresponding path costs.</li>
+            <li>Define the heuristic value h(n) for each node.</li>
+            <li>Insert the start node into the priority queue (OPEN list) with its f(n) value.</li>
+            <li>Remove the node having the smallest f(n) value from the priority queue.</li>
+            <li>If the selected node is the goal node, display the optimal path and total cost, then stop.</li>
+            <li>Otherwise, mark the selected node as visited.</li>
+            <li>Generate all neighboring nodes of the current node.</li>
+            <li>For each neighboring node, calculate g(n), the actual cost from the start; h(n), the heuristic estimate to the goal; and f(n) = g(n) + h(n).</li>
+            <li>Insert the neighboring nodes into the priority queue according to their f(n) values.</li>
+            <li>Repeat Steps 5 to 10 until the goal node is reached or no path exists.</li>
+            <li>Stop.</li>
+          </ol>
+        </div>
         <div class="file-block">
           <pre><code>import heapq
 
@@ -276,6 +340,23 @@ else:
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
         </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To implement the Hill Climbing algorithm for solving an optimization problem and find the optimal solution using an objective function.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start.</li>
+            <li>Define the objective function to be optimized.</li>
+            <li>Select an initial solution (starting point).</li>
+            <li>Generate the neighboring solutions (left and right).</li>
+            <li>Evaluate the objective function for the current solution and its neighboring solutions.</li>
+            <li>Compare the neighboring solutions with the current solution.</li>
+            <li>Move to the neighboring solution if it has a better objective value.</li>
+            <li>Repeat Steps 4 to 7 until no neighboring solution has a better objective value.</li>
+            <li>Display the optimal solution and the maximum objective value.</li>
+            <li>Stop.</li>
+          </ol>
+        </div>
         <div class="file-block">
           <pre><code># Objective Function 
 def objective_function(x): 
@@ -328,6 +409,27 @@ print("Maximum Value =", best_value)</code></pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
         </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To develop a Linear Regression model using Python to predict house prices based on house size and visualize the results using Matplotlib.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start the program.</li>
+            <li>Import the required libraries (NumPy, Matplotlib, and LinearRegression).</li>
+            <li>Create the input dataset (House Size) and output dataset (House Price).</li>
+            <li>Reshape the input data into a two-dimensional array.</li>
+            <li>Create a Linear Regression model.</li>
+            <li>Train the model using the fit() method.</li>
+            <li>Predict the output values using the trained model.</li>
+            <li>Predict the price for a new house size.</li>
+            <li>Display the slope, intercept, and predicted price.</li>
+            <li>Plot the actual data using a scatter plot.</li>
+            <li>Plot the regression line using the predicted values.</li>
+            <li>Plot the new house prediction on the graph.</li>
+            <li>Display the graph with appropriate title, labels, and legend.</li>
+            <li>Stop.</li>
+          </ol>
+        </div>
         <div class="file-block">
           <pre><code>import numpy as np
 import matplotlib.pyplot as plt
@@ -368,6 +470,29 @@ plt.show()</code></pre>
             <span class="badge">Python (scikit-learn)</span>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
+        </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To build a Logistic Regression classifier for a binary classification task (Spam Detection) and classify an email as Spam or Not Spam based on its text content.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start the program.</li>
+            <li>Import the required libraries (CountVectorizer and LogisticRegression).</li>
+            <li>Create the training dataset containing email messages and their corresponding labels (Spam = 1, Not Spam = 0).</li>
+            <li>Display the training data and labels.</li>
+            <li>Create a CountVectorizer object to convert text data into numerical features.</li>
+            <li>Transform the training emails into a feature matrix using fit_transform().</li>
+            <li>Create a Logistic Regression model.</li>
+            <li>Train the Logistic Regression model using the fit() method with the feature matrix and labels.</li>
+            <li>Create the testing dataset containing the email to be classified.</li>
+            <li>Display the testing email.</li>
+            <li>Transform the testing email into numerical features using the trained vectorizer.</li>
+            <li>Predict whether the email is Spam or Not Spam using the trained Logistic Regression model.</li>
+            <li>Display the prediction result.</li>
+            <li>If the prediction is 1, display "The email is classified as SPAM."</li>
+            <li>Otherwise, display "The email is classified as NOT SPAM."</li>
+            <li>Stop the program.</li>
+          </ol>
         </div>
         <div class="file-block">
           <pre><code>from sklearn.feature_extraction.text import CountVectorizer
@@ -439,6 +564,28 @@ else:
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
         </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To apply the Support Vector Machine (SVM) algorithm on the Iris dataset and evaluate its classification performance using accuracy and other performance metrics.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Start the program.</li>
+            <li>Import the required libraries (load_iris, train_test_split, SVC, and evaluation metrics).</li>
+            <li>Load the Iris dataset.</li>
+            <li>Separate the dataset into input features (X) and target labels (y).</li>
+            <li>Split the dataset into training and testing sets using train_test_split().</li>
+            <li>Create an SVM classifier using the SVC class.</li>
+            <li>Train the SVM model using the training data with the fit() method.</li>
+            <li>Use the trained model to predict the class labels for the testing data.</li>
+            <li>Compare the predicted labels with the actual labels.</li>
+            <li>Calculate the classification accuracy.</li>
+            <li>Generate the confusion matrix.</li>
+            <li>Calculate precision, recall, and F1-score for performance evaluation.</li>
+            <li>Display the predicted values and evaluation metrics.</li>
+            <li>Interpret the classification performance of the SVM model.</li>
+            <li>Stop the program.</li>
+          </ol>
+        </div>
         <div class="file-block">
           <pre><code>from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -503,6 +650,30 @@ print(cm)</code></pre>
             <span class="badge">Python (pandas &amp; scikit-learn)</span>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
+        </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To implement the K-Nearest Neighbors (KNN) classification algorithm using a loan dataset to predict whether a loan application will be approved or not approved.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Import the required libraries such as Pandas, LabelEncoder, StandardScaler, KNeighborsClassifier, train_test_split, accuracy_score, and confusion_matrix.</li>
+            <li>Load the loan dataset from the CSV file using pd.read_csv().</li>
+            <li>Display the first few records and total number of records in the dataset.</li>
+            <li>Select the required columns: ApplicantIncome, LoanAmount, Credit_History, and Loan_Status.</li>
+            <li>Remove rows containing missing values using dropna().</li>
+            <li>Convert the target variable Loan_Status into numerical values using LabelEncoder.</li>
+            <li>Separate the feature variables (X) and target variable (y).</li>
+            <li>Split the dataset into training data (80%) and testing data (20%).</li>
+            <li>Apply feature scaling using StandardScaler to normalize the feature values.</li>
+            <li>Create a K-Nearest Neighbors (KNN) classifier with n_neighbors = 5.</li>
+            <li>Train the KNN model using the scaled training data.</li>
+            <li>Predict the loan status for the testing data.</li>
+            <li>Compare the actual and predicted values.</li>
+            <li>Evaluate the model using Accuracy Score and Confusion Matrix.</li>
+            <li>Enter details of a new applicant and scale the input data.</li>
+            <li>Predict the loan status for the new applicant using the trained KNN model.</li>
+            <li>Display the final result as Approved or Not Approved.</li>
+          </ol>
         </div>
         <div class="file-block">
           <pre><code>import pandas as pd
@@ -596,6 +767,32 @@ else:
             <span class="badge">Python (TensorFlow / Keras)</span>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
+        </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To construct and train a Feedforward Neural Network using TensorFlow to classify diabetes risk data into Low Risk or High Risk based on Glucose Level, BMI, and Age.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Import the required libraries: NumPy, TensorFlow, train_test_split, and StandardScaler.</li>
+            <li>Create the dataset with Glucose Level, BMI, and Age as input features and Low Risk (0) / High Risk (1) as target classes.</li>
+            <li>Split the dataset into 80% training data and 20% testing data.</li>
+            <li>Standardize the input features using StandardScaler.</li>
+            <li>Construct the Feedforward Neural Network with:
+              <ul>
+                <li>Input layer with 3 input features.</li>
+                <li>First hidden layer with 8 neurons and ReLU activation.</li>
+                <li>Second hidden layer with 4 neurons and ReLU activation.</li>
+                <li>Output layer with 1 neuron and Sigmoid activation.</li>
+              </ul>
+            </li>
+            <li>Compile the model using the Adam optimizer, binary cross-entropy loss function, and accuracy as the evaluation metric.</li>
+            <li>Train the neural network using the training data for 50 epochs with a batch size of 4.</li>
+            <li>Evaluate the trained model using the testing data and display the test accuracy.</li>
+            <li>Enter new patient data containing Glucose Level, BMI, and Age and standardize it using the same scaler.</li>
+            <li>Use the trained model to predict the class of the new data.</li>
+            <li>If the model output is greater than or equal to 0.5, classify it as High Risk; otherwise, classify it as Low Risk.</li>
+            <li>Display the predicted result.</li>
+          </ol>
         </div>
         <div class="file-block">
           <pre><code># Feedforward Neural Network using TensorFlow
@@ -726,6 +923,35 @@ else:
             <span class="badge">Python (TensorFlow / Keras)</span>
             <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
           </div>
+        </div>
+        <div class="program-purpose">
+          <h3>Aim</h3>
+          <p>To design and implement a Convolutional Neural Network (CNN) using TensorFlow to classify handwritten digit images.</p>
+          <h3>Algorithm</h3>
+          <ol>
+            <li>Import the required libraries: TensorFlow, NumPy, Matplotlib, and Random.</li>
+            <li>Load the MNIST handwritten digit dataset containing training and testing images.</li>
+            <li>Display the dataset summary and sample handwritten digit images.</li>
+            <li>Select a limited number of training and testing images for faster execution.</li>
+            <li>Normalize the image pixel values by dividing them by 255.</li>
+            <li>Reshape the images to include the channel dimension required by the CNN.</li>
+            <li>Construct the CNN with:
+              <ul>
+                <li>Input layer.</li>
+                <li>Convolutional layer with ReLU activation.</li>
+                <li>Max Pooling layer.</li>
+                <li>Flatten layer.</li>
+                <li>Dense hidden layer with ReLU activation.</li>
+                <li>Output layer with 10 neurons and Softmax activation.</li>
+              </ul>
+            </li>
+            <li>Compile the CNN using the Adam optimizer, Sparse Categorical Cross-Entropy loss function, and accuracy metric.</li>
+            <li>Train the CNN using the training images for 2 epochs with a batch size of 64.</li>
+            <li>Evaluate the trained CNN using the testing images and display the test accuracy.</li>
+            <li>Randomly select one image from the testing dataset.</li>
+            <li>Predict the handwritten digit using the trained CNN.</li>
+            <li>Display the actual digit, predicted digit, and selected handwritten digit image.</li>
+          </ol>
         </div>
         <div class="file-block">
           <pre><code># Convolutional Neural Network using TensorFlow
